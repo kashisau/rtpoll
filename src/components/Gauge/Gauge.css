@@ -3,3 +3,9 @@
     display: block;
     background: #fff;
 }
+
+.Circle-outer {
+    background: #ff0000;
+    width: 100%;
+    height: 100%;
+}

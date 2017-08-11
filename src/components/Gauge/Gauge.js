@@ -4,9 +4,9 @@ import './Gauge.css';
 class Gauge extends Component {
     render() {
         return <div className="Gauge">
-            <div className="Gauge-outline">
-                <div className="Gauge-needle"></div>
-            </div>
+            <div className="Circle-outer"></div>
+            <div className="Circle-inner"></div>
+            <div className="Gauge-needle"></div>
         </div>
     }
 }
