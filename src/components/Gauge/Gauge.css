@@ -3,13 +3,18 @@
     display: block;
 }
 
-.Gauge-outline {
+.Gauge-svg {
     width: 80%;
     height: 80%;
     margin: 10% 10%;
 }
 
-#Oval {
-    transform: rotate(100deg);
-    transform-origin: 130.5px, 186px;
+#Needle {
+    transform: rotate(45deg);
+    transform-origin: center bottom;
+    transition: transform 200ms ease-in-out 10ms;
+}
+
+#Combined-Shape {
+    box-shadow: 1px 1px #000;
 }
