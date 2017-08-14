@@ -1,20 +1,10 @@
-.Gauge {
-    min-height: 300px;
-    display: block;
-}
+.Gauge-image {
+    width: 90%;
+    height: 100%;
 
-.Gauge-svg {
-    width: 80%;
-    height: 80%;
-    margin: 10% 10%;
+    margin: 1em 5%;
 }
 
 #Needle {
-    transform: rotate(45deg);
     transform-origin: center bottom;
-    transition: transform 200ms ease-in-out 10ms;
-}
-
-#Combined-Shape {
-    box-shadow: 1px 1px #000;
 }

@@ -1,0 +1,45 @@
+.VoteButtons {
+    text-align: center;
+    font-size: 0.66em;
+}
+
+.VoteButtons a,
+.VoteButtons span {
+    display: inline-block;    
+}
+
+.VoteButtons-button {
+    font-family: 'Raleway', serif;
+    font-size: 10em;
+
+    border-radius: 100%;
+    width: 1em;
+    height: 1em;
+
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1;
+
+    padding: 0em;
+
+    text-decoration: none;
+    color: white;
+}
+
+.VoteButtons-divider {
+    background-color: #52787C;
+    width: 1px;
+    height: 10em;
+    vertical-align: bottom;
+
+    margin: 0 7em;
+}
+
+.VoteButtons-button.positive {
+    background: #7ED321;
+}
+
+.VoteButtons-button.negative {
+    background: #D0021B;
+}

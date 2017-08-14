@@ -2,15 +2,34 @@ import React, { Component } from 'react';
 import './Gauge.css';
 
 class Gauge extends Component {
+
+    constructor(props) {
+        super(props);
+        this.translateValueToDegrees = this.translateValueToDegrees.bind(this);
+    }
+    
+    /**
+     * Translates the sentiment of 
+     * @param {Number} value    The sentiment value between [-1, 1] that
+     *                          represents the state of the gauge.
+     */
+    translateValueToDegrees(gaugeValue) {
+        // Bracket our options to [-1, 1].
+        gaugeValue = Math.min(gaugeValue, 1);
+        gaugeValue = Math.max(gaugeValue, -1);
+
+        return `rotate(${85 * gaugeValue})`;
+    }
+
     render() {
         return <div className="Gauge">
-            <svg className="Gauge-svg" width="261px" height="186px" viewBox="0 0 261 186" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <svg className="Gauge-image" viewBox="0 0 260 140" version="1.1" xmlns="http://www.w3.org/2000/svg">
                 <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g id="Dial">
-                        <path d="M130.248822,162.968387 C240.448031,162.968387 230.248822,177.228475 230.248822,122 C230.248822,66.771525 185.477297,22 130.248822,22 C75.0203471,22 30.248822,66.771525 30.248822,122 C30.248822,177.228475 20.0496136,162.968387 130.248822,162.968387 Z" id="Oval" fill="#FFFAD5"></path>
-                        <path d="M130.124411,182.978992 C-12.9157445,182.978992 0.322974576,201.48879 0.322974576,129.801436 C0.322974576,58.1140826 58.4370572,0 130.124411,0 C201.811765,0 259.925847,58.1140826 259.925847,129.801436 C259.925847,201.48879 273.164567,182.978992 130.124411,182.978992 Z M130.248822,162.968387 C240.448031,162.968387 230.248822,177.228475 230.248822,122 C230.248822,66.771525 185.477297,22 130.248822,22 C75.0203471,22 30.248822,66.771525 30.248822,122 C30.248822,177.228475 20.0496136,162.968387 130.248822,162.968387 Z" id="Dial-housing" fill="#DB9E36"></path>
-                        <polygon shapeRendering="geometricPrecision" id="Needle" fill="#BD4932" points="129 160 132 160 130.5 11"></polygon>
-                        <path d="M115.132171,163 C116.109956,155.661281 122.393846,150 130,150 C137.606154,150 143.890044,155.661281 144.867829,163 L115.132171,163 Z" id="Combined-Shape" stroke="#979797" fill="#D8D8D8"></path>
+                    <g id="Dial" transform="translate(-10.000000, -10.000000)">
+                    <path d="M10,140 C10,68.2029825 68.2029825,10 140,10 C211.797017,10 270,68.2029825 270,140 L10,140 Z M10,140 L270,140 L270,149 L10,149 L10,140 Z" id="Dial-Background" fill="#FFFAD5"></path>
+                    <path  transform={this.translateValueToDegrees(this.props.gaugeValue)} d="M138,140 C136.68171,138.207869 137.348377,101.541203 140,30 C142.666667,101.554614 143.333333,138.22128 142,140 C140,142.668079 139.977435,142.688196 138,140 Z" id="Needle" fill="#BD4932"></path>
+                    <circle id="Dial-Axle-Cover" fill="#D8D8D8" cx="140" cy="140" r="10"></circle>
+                    <path d="M260,140 L270,140 C270,68.2029825 211.797017,10 140,10 C68.2029825,10 10,68.2029825 10,140 L20,140 C20,73.72583 73.72583,20 140,20 C206.27417,20 260,73.72583 260,140 Z M10,140 L270,140 L270,150 L10,150 L10,140 Z" id="Dial-Outline" fill="#FFD34E"></path>
                     </g>
                 </g>
             </svg>
