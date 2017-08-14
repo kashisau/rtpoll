@@ -1,10 +1,13 @@
+html {
+  height: 100%;
+}
 body {
   font-size: 16px;
-  background: #105b63;
+  background: linear-gradient(to bottom, #105B63 0%, #2fa3b0 100%);
+  min-height: 100%;
 }
 
 .Header {
-  background-color: #bd4932;
   margin: 0;
   padding: 0;
 
@@ -12,7 +15,7 @@ body {
 }
 
 h1 {
-  padding: 13px 0;
+  padding: 1em 0;
   margin: 0;
 
   font-size: 2em;
@@ -21,5 +24,5 @@ h1 {
 
   text-align: center;
 
-  color: #fffad5;
+  color: #ffffff;
 }
