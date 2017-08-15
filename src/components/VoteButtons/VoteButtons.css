@@ -25,6 +25,13 @@
 
     text-decoration: none;
     color: white;
+
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.65);
+    -webkit-tap-highlight-color: transparent;
+
+    transition:
+            background-color 1s ease-in-out,
+            box-shadow 1s ease-in-out;
 }
 
 .VoteButtons-divider {
@@ -37,9 +44,34 @@
 }
 
 .VoteButtons-button.positive {
-    background: #7ED321;
+    background: #7ac232;
 }
 
 .VoteButtons-button.negative {
+    background: #c21014;
+}
+
+.VoteButtons-button:active {
+    box-shadow: inset 2px 2px 8px rgba(0,0,0,0.65);
+}
+
+.VoteButtons-button.positive:active {
+    background: #7ED321;
+     transition:
+        background-color 0s ease-in-out,
+        box-shadow 0s ease-in-out;
+}
+
+.VoteButtons-button.negative:active {
     background: #D0021B;
+     transition:
+        background-color 0s ease-in-out,
+        box-shadow 0s ease-in-out;
+}
+
+.VoteButtons-button.disabled,
+.VoteButtons-button.disabled:active {
+    background: #52787C;
+    color: #999;
+    box-shadow: none;
 }

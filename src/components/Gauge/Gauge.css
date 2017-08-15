@@ -7,4 +7,5 @@
 
 #Needle {
     transform-origin: center bottom;
+    transition: transform 100ms ease-in-out 10ms;
 }
