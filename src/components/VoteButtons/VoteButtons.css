@@ -1,6 +1,8 @@
 .VoteButtons {
     text-align: center;
     font-size: 0.66em;
+
+    margin: 1em 0;
 }
 
 .VoteButtons a,
@@ -28,45 +30,37 @@
 
     box-shadow: 2px 2px 4px rgba(0,0,0,0.65);
     -webkit-tap-highlight-color: transparent;
-
-    transition:
-            background-color 1s ease-in-out,
-            box-shadow 1s ease-in-out;
 }
 
 .VoteButtons-divider {
-    background-color: #52787C;
+    background-color: #fff;
     width: 1px;
     height: 10em;
     vertical-align: bottom;
 
-    margin: 0 7em;
+    margin: 0 12vw;
 }
 
 .VoteButtons-button.positive {
-    background: #7ac232;
+    background: #7ED321;
 }
 
 .VoteButtons-button.negative {
-    background: #c21014;
+    background: #D0021B;
 }
 
 .VoteButtons-button:active {
     box-shadow: inset 2px 2px 8px rgba(0,0,0,0.65);
+    transition: none;
 }
 
 .VoteButtons-button.positive:active {
-    background: #7ED321;
-     transition:
-        background-color 0s ease-in-out,
-        box-shadow 0s ease-in-out;
+    background: #7ac232;
+
 }
 
 .VoteButtons-button.negative:active {
-    background: #D0021B;
-     transition:
-        background-color 0s ease-in-out,
-        box-shadow 0s ease-in-out;
+    background: #c21014;
 }
 
 .VoteButtons-button.disabled,

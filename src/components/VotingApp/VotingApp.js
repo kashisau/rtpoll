@@ -4,6 +4,8 @@ import Gauge from '../Gauge/Gauge.js';
 import VoteButtons from '../VoteButtons/VoteButtons.js';
 import openSocket from 'socket.io-client';
 
+const VOTE_API_SERVER = "https://voteapi.kashis.com.au";
+
 class VotingApp extends Component {
 
   /**
@@ -28,7 +30,7 @@ class VotingApp extends Component {
    */
   componentWillMount() {
     const reactComponent = this;
-    this.socket = openSocket('http://localhost:8000/vote');
+    this.socket = openSocket(`${VOTE_API_SERVER}/vote`);
     this.submitVote = this.submitVote.bind(this);
     this.socket.on('connect', (voteServerSocket) => {
       reactComponent.setState({disabled: false});

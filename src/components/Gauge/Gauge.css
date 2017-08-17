@@ -5,7 +5,24 @@
     margin: 1em 5%;
 }
 
+.Gauge-image.disabled #Dial-Background,
+.Gauge-image.disabled #Dial-Outline,
+.Gauge-image.disabled #Needle {
+    transition: fill 1s ease-in-out !important;
+}
+
+.Gauge-image.disabled #Dial-Background {
+    fill: #333;
+}
+
+.Gauge-image.disabled #Dial-Outline {
+    fill: #666;
+}
+
+.Gauge-image.disabled #Needle {
+    fill: #000;
+}
+
 #Needle {
-    transform-origin: center bottom;
-    transition: transform 100ms ease-in-out 10ms;
+    transition: transform 400ms ease-in-out;
 }
