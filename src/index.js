@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import VotingApp from './components/VotingApp/VotingApp';
+import BallotRouter from './components/BallotRouter/BallotRouter';
 
-
-ReactDOM.render(<VotingApp />, document.getElementById('root'));
+ReactDOM.render(<BallotRouter />, document.getElementById('root'));

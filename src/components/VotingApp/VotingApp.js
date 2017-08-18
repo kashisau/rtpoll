@@ -16,7 +16,6 @@ class VotingApp extends Component {
     super(props);
     this.state = {
       gaugeValue: 0,
-      votes: [],
       disabled: true
     };
 
