@@ -17,7 +17,7 @@ class VoteButton extends Component {
                 classnames(
                     "VoteButtons-button",
                     this.props.polarity,
-                    {"disabled": this.props.disabled},
+                    { "disabled": this.props.disabled },
                     { "active": this.state.btnActive }
                 )}
                 onTouchStart={ _ => this.setState({btnActive: true})}

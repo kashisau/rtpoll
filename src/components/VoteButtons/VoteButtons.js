@@ -11,9 +11,9 @@ class VoteButtons extends Component {
 
     render() {
         return <div className="VoteButtons">
-            <VoteButton submitVote={this.props.submitVote} polarity="negative" />
+            <VoteButton disabled={this.props.disabled} submitVote={this.props.submitVote} polarity="negative" />
             <span className="VoteButtons-divider"></span>
-            <VoteButton submitVote={this.props.submitVote} polarity="positive" />
+            <VoteButton  disabled={this.props.disabled} submitVote={this.props.submitVote} polarity="positive" />
         </div>
     }
 }

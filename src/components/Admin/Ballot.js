@@ -19,6 +19,7 @@ class Ballot extends Component {
       gaugeValue: 0,
       voteDisabled: true,
       graphDisabled: true,
+      needleColor: "#BD4932",
       clientList: []
     };
   }
@@ -59,7 +60,7 @@ class Ballot extends Component {
     <div className="Header">
       <h1>Real-time poll administration</h1>
     </div>
-    <Gauge gaugeValue={this.state.gaugeValue} disabled={this.state.voteDisabled} />
+    <Gauge needleColor={this.state.needleColor} gaugeValue={this.state.gaugeValue} disabled={this.state.voteDisabled} />
     <ClientGraph clientList={this.state.clientList} disabled={this.state.graphDisabled} />
     </div>
 }

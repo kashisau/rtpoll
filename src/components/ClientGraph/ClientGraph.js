@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Gauge from '../Gauge/Gauge';
 import openSocket from 'socket.io-client';
 import './ClientGraph.css';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const VOTE_API_SERVER = "http://localhost:8000";
+const VOTE_API_SERVER = "https://voteapi.kashis.com.au";
 
 
 class ClientGraph extends Component {
@@ -17,11 +17,12 @@ class ClientGraph extends Component {
     super(props);
     this.state = {
       clients: [],
-      clientGraphData: [],
+      voteData: [],
       disabled: true
     };
 
-    this.clientData = this.clientData.bind(this);
+    this.voteData = this.voteData.bind(this);
+    this.colourBar = this.colourBar.bind(this);
   }
 
   /**
@@ -39,40 +40,48 @@ class ClientGraph extends Component {
       reactComponent.setState({disabled: true});
     });
 
-    this.socket.on('clientList', (clients) => reactComponent.setState({clients: clients, clientGraphData: this.clientData(clients)}));
+    this.socket.on('clientList', (clients) => reactComponent.setState(
+      {
+        clients: clients,
+        voteData: this.voteData(clients)
+      })
+    );
   }
 
   /**
-   * Uses D3.js-native rendering to populate an SVG.
+   * Organises the vote data.
    * @return 
    */
-  clientData(clientList) {
+  voteData(clientList) {
     const data = [];
     clientList.map(
       (client) => {
         data.push({
           name: client.id,
           average: client.average,
-          totalAverage: client.totalAverage
+          totalAverage: client.totalAverage,
+          color: client.colour
         })
       }
     );
     return data;
   }
 
+  colourBar = (props) => {
+    const { fill, x, y, width, height } = props;
+    const color = props.payload.color;
+
+    return <Rectangle x={x} y={y} width={width} height={height} fill={color} />
+  };
+
   render() {
-    const server = <circle r="12px" cx="100px" cy="50px" />
-    const nodes = this.props.clientList.map((clientId) => {
-      
-    });
     return <div className="ClientGraph">
-        <BarChart width={800} height={400} data={this.state.clientGraphData} ref={this.chart}>
-        <XAxis dataKey="name" />
-        <YAxis domain={[-1, 1]} />
-        <Bar type="monotone" dataKey="average" barSize={10} fill="#8884d8"/>
-        <Bar type="monotone" dataKey="totalAverage" barSize={10} fill="#8884d8"/>
+        <BarChart width={860} height={400} data={this.state.voteData}>
+          <XAxis hide={true} />
+          <YAxis hide={true} domain={[-1, 1]} />
+          <Bar type="monotone" dataKey="average" barSize={20} shape={this.colourBar}/>
+          <Bar type="monotone" dataKey="totalAverage" barSize={20} fill="#8884d8"/>
         </BarChart>
-        {this.props.clientList.map((client, key) => <p key={key}>ClientID: {client.id}, votes: {client.votes} (-{client.negative} / +{client.positive}), average: {client.average}</p>)}
     </div>
   }
 }

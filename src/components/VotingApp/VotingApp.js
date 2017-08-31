@@ -3,7 +3,6 @@ import './VotingApp.css';
 import Gauge from '../Gauge/Gauge.js';
 import VoteButtons from '../VoteButtons/VoteButtons.js';
 import openSocket from 'socket.io-client';
-import Cookies from 'universal-cookie';
 import { v4 as uuid } from 'uuid';
 
 const VOTE_API_SERVER = "http://localhost:8000";
@@ -19,9 +18,10 @@ class VotingApp extends Component {
     this.state = {
       gaugeValue: 0,
       disabled: true,
+      needleColor: "#BD4932",
       voterId: undefined
     };
-    this.cookies = new Cookies();
+
     this.componentWillMount = this.componentWillMount.bind(this);
     this.submitVote = this.submitVote.bind(this);
   }
@@ -32,20 +32,22 @@ class VotingApp extends Component {
    */
   componentWillMount() {
     const reactComponent = this;
-    const voterId = this.cookies.get('uuid') || uuid();
-    this.cookies.set('voterId', voterId, { path: '/' });
+    const voterId = sessionStorage.getItem('voterId') || uuid();
+
+    sessionStorage.setItem('voterId', voterId);
     
     this.socket = openSocket(`${VOTE_API_SERVER}/vote`);
-    this.socket.emit('voterId', voterId);
     
     this.submitVote = this.submitVote.bind(this);
     this.socket.on('connect', (voteServerSocket) => {
       reactComponent.setState({disabled: false});
+      this.socket.emit('voterId', voterId);
     });
     this.socket.on('disconnect', (voteServerSocket) => {
       reactComponent.setState({disabled: true});
     });
 
+    this.socket.on('color', (color) => reactComponent.setState({needleColor: color}));
     this.socket.on('voteAverage', (averageData) => reactComponent.setState({gaugeValue: averageData}));
   }
 
@@ -80,7 +82,7 @@ class VotingApp extends Component {
         <div className="Header">
           <h1>Real-time poll</h1>
         </div>
-        <Gauge gaugeValue={this.state.gaugeValue} disabled={this.state.disabled} />
+        <Gauge needleColor={this.state.needleColor} gaugeValue={this.state.gaugeValue} disabled={this.state.disabled} />
         <VoteButtons submitVote={this.submitVote} disabled={this.state.disabled} />
       </div>
     );
