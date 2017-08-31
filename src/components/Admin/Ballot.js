@@ -4,7 +4,7 @@ import openSocket from 'socket.io-client';
 import './Admin.css';
 import ClientGraph from '../ClientGraph/ClientGraph';
 
-const VOTE_API_SERVER = "https://voteapi.kashis.com.au";
+const VOTE_API_SERVER = "http://localhost:8000";
 
 
 class Ballot extends Component {
@@ -17,7 +17,9 @@ class Ballot extends Component {
     super(props);
     this.state = {
       gaugeValue: 0,
-      disabled: true
+      voteDisabled: true,
+      graphDisabled: true,
+      clientList: []
     };
   }
 
@@ -27,16 +29,29 @@ class Ballot extends Component {
    */
   componentWillMount() {
     const reactComponent = this;
-    this.socket = openSocket(`${VOTE_API_SERVER}/vote`);
+    const voteSocket = openSocket(`${VOTE_API_SERVER}/vote`);
     
-    this.socket.on('connect', (voteServerSocket) => {
-      reactComponent.setState({disabled: false});
+    voteSocket.on('connect', (voteServerSocket) => {
+      reactComponent.setState({voteDisabled: false});
     });
-    this.socket.on('disconnect', (voteServerSocket) => {
-      reactComponent.setState({disabled: true});
+    voteSocket.on('disconnect', (voteServerSocket) => {
+      reactComponent.setState({voteDisabled: true});
     });
+    voteSocket.on('voteAverage', (averageData) => reactComponent.setState({gaugeValue: averageData}));
 
-    this.socket.on('voteAverage', (averageData) => reactComponent.setState({gaugeValue: averageData}));
+    this.voteSocket = voteSocket;
+
+    const ballotSocket = openSocket(`${VOTE_API_SERVER}/ballot`);
+
+    ballotSocket.on('connect', (ballotServerSocket) => {
+      reactComponent.setState({graphDisabled: false});
+    });
+    ballotSocket.on('disconnect', (ballotServerSocket) => {
+      reactComponent.setState({graphDisabled: true});
+    });
+    ballotSocket.on('clientList', (clientList) => reactComponent.setState({clientList: clientList}));
+
+    this.ballotSocket = ballotSocket;
   }
 
   render() {
@@ -44,8 +59,8 @@ class Ballot extends Component {
     <div className="Header">
       <h1>Real-time poll administration</h1>
     </div>
-    <Gauge gaugeValue={this.state.gaugeValue} disabled={this.state.disabled} />
-    <ClientGraph />
+    <Gauge gaugeValue={this.state.gaugeValue} disabled={this.state.voteDisabled} />
+    <ClientGraph clientList={this.state.clientList} disabled={this.state.graphDisabled} />
     </div>
 }
 }

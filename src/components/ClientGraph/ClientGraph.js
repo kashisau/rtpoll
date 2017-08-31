@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Gauge from '../Gauge/Gauge';
 import openSocket from 'socket.io-client';
 import './ClientGraph.css';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
-const VOTE_API_SERVER = "https://voteapi.kashis.com.au";
+const VOTE_API_SERVER = "http://localhost:8000";
 
 
 class ClientGraph extends Component {
@@ -16,8 +17,11 @@ class ClientGraph extends Component {
     super(props);
     this.state = {
       clients: [],
+      clientGraphData: [],
       disabled: true
     };
+
+    this.clientData = this.clientData.bind(this);
   }
 
   /**
@@ -35,13 +39,40 @@ class ClientGraph extends Component {
       reactComponent.setState({disabled: true});
     });
 
-    this.socket.on('clientChange', (clients) => reactComponent.setState({clients: clients}));
+    this.socket.on('clientList', (clients) => reactComponent.setState({clients: clients, clientGraphData: this.clientData(clients)}));
+  }
+
+  /**
+   * Uses D3.js-native rendering to populate an SVG.
+   * @return 
+   */
+  clientData(clientList) {
+    const data = [];
+    clientList.map(
+      (client) => {
+        data.push({
+          name: client.id,
+          average: client.average,
+          totalAverage: client.totalAverage
+        })
+      }
+    );
+    return data;
   }
 
   render() {
+    const server = <circle r="12px" cx="100px" cy="50px" />
+    const nodes = this.props.clientList.map((clientId) => {
+      
+    });
     return <div className="ClientGraph">
-        <svg width="200px" height="100px" ref={this.d3Canvas}></svg>
-        <script src="https://d3js.org/d3.v4.min.js"></script>
+        <BarChart width={800} height={400} data={this.state.clientGraphData} ref={this.chart}>
+        <XAxis dataKey="name" />
+        <YAxis domain={[-1, 1]} />
+        <Bar type="monotone" dataKey="average" barSize={10} fill="#8884d8"/>
+        <Bar type="monotone" dataKey="totalAverage" barSize={10} fill="#8884d8"/>
+        </BarChart>
+        {this.props.clientList.map((client, key) => <p key={key}>ClientID: {client.id}, votes: {client.votes} (-{client.negative} / +{client.positive}), average: {client.average}</p>)}
     </div>
   }
 }

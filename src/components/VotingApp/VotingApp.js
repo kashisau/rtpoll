@@ -3,8 +3,10 @@ import './VotingApp.css';
 import Gauge from '../Gauge/Gauge.js';
 import VoteButtons from '../VoteButtons/VoteButtons.js';
 import openSocket from 'socket.io-client';
+import Cookies from 'universal-cookie';
+import { v4 as uuid } from 'uuid';
 
-const VOTE_API_SERVER = "https://voteapi.kashis.com.au";
+const VOTE_API_SERVER = "http://localhost:8000";
 
 class VotingApp extends Component {
 
@@ -16,9 +18,10 @@ class VotingApp extends Component {
     super(props);
     this.state = {
       gaugeValue: 0,
-      disabled: true
+      disabled: true,
+      voterId: undefined
     };
-
+    this.cookies = new Cookies();
     this.componentWillMount = this.componentWillMount.bind(this);
     this.submitVote = this.submitVote.bind(this);
   }
@@ -29,7 +32,12 @@ class VotingApp extends Component {
    */
   componentWillMount() {
     const reactComponent = this;
+    const voterId = this.cookies.get('uuid') || uuid();
+    this.cookies.set('voterId', voterId, { path: '/' });
+    
     this.socket = openSocket(`${VOTE_API_SERVER}/vote`);
+    this.socket.emit('voterId', voterId);
+    
     this.submitVote = this.submitVote.bind(this);
     this.socket.on('connect', (voteServerSocket) => {
       reactComponent.setState({disabled: false});
