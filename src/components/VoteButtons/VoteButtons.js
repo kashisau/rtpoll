@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import './VoteButtons.css';
-import VoteButton from './VoteButton';
+import VoteButton from '../VoteButton/VoteButton';
 
 class VoteButtons extends Component {
 
