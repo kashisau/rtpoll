@@ -4,7 +4,7 @@ import openSocket from 'socket.io-client';
 import './Admin.css';
 import ClientGraph from '../ClientGraph/ClientGraph';
 
-const VOTE_API_SERVER = "http://localhost:8000";
+const VOTE_API_SERVER = "https://voteapi.kashis.com.au";
 
 
 class Ballot extends Component {

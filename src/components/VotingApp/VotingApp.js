@@ -5,7 +5,7 @@ import VoteButtons from '../VoteButtons/VoteButtons.js';
 import openSocket from 'socket.io-client';
 import { v4 as uuid } from 'uuid';
 
-const VOTE_API_SERVER = "http://localhost:8000";
+const VOTE_API_SERVER = "https://voteapi.kashis.com.au";
 
 class VotingApp extends Component {
 
